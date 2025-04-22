@@ -1,0 +1,68 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+html, body{
+    height: 100%;
+    width: 100%;
+}
+.glavni{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-image: url(assets/backImg.jpg);  
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+h1{
+    font-size: 70px;
+    color: white;
+    font-family: sans-serif;
+    position: absolute;
+    top: 0;
+    align-self: center;
+    margin-top: 50px;
+}
+.infoCont{
+    display: flex; 
+    gap: 10px;
+}
+.cont{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+label{
+    color: white;
+    font-size: 22px;
+    font-family: sans-serif;
+}
+form{
+    flex-direction: column;
+    gap: 30px;
+    display: flex;
+}
+.nameInput, .balanceInput{
+    height: 50px;
+    width: 250px;
+    font-size: 18px;
+}
+.startBtn{
+    border: none;
+    height: 60px;
+    width: 130px;
+    font-family: sans-serif;
+    font-size: 25px;
+    border-radius: 16px;
+    transition-duration: 0.2s;
+    align-self: center;
+}
+.startBtn:hover{
+    background-color: rgb(212, 201, 201);
+    transition-duration: 0.2s;
+}

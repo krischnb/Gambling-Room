@@ -12,19 +12,17 @@
         <form action="game.php" autocomplete="off" name="form" method="post">
             <h1>Roulette</h1>
 
-            <div class="infoCont">
-                <div class="cont">
-                    <label for="player">Name:</label>
-                    <input class="nameInput" type="text" name="player" placeholder="Enter your name" maxlength="10" required>
-                </div>
-
-                <div class="cont">
-                    <label for="balance">Balance:</label>
-                    <input class="balanceInput" type="text" name="balance" placeholder="Enter your starting balance" maxlength="10" required>
-                </div>
+            <div class="cont">
+                <label for="player">Your name:</label>
+                <input class="nameInput" type="text" name="player" maxlength="20" required>
             </div>
 
-            <input class="startBtn" type="submit" name="igraj" value="Start"></input>
+            <div class="cont">
+                <label for="balance">Starting balance:</label>
+                <input class="balanceInput" type="number" value="100" min="10" name="balance" maxlength="16" required>
+            </div>
+
+            <input class="startBtn" type="submit" name="start" value="Start"></input>
         </form>
     </div>
 

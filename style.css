@@ -55,6 +55,14 @@ label{
     font-family: sans-serif;
     padding: 12px;
 }
+#balanceError{
+    color: red;
+    font-size: 16px;
+    font-family: sans-serif;
+}
+.activeError{
+    display: inline-block !important;
+}
 .startBtn{
     margin-top: 12px;
 }

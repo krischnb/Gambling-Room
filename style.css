@@ -85,8 +85,8 @@ label{
     padding-left: 10px;
 }
 .backBtn{
-    height: 80px;
-    width: 80px;
+    height: 60px;
+    width: 60px;
     margin: 10px;
     border-radius: 16px;
     border: none;
@@ -135,14 +135,12 @@ label{
 }
 .gridSection {
     display: flex;
-    justify-content: space-between;
     width: 100%;
     max-width: 900px;
 }
 
 .ducat {
     background-color: #333;
-    border-radius: 10px;
     padding: 20px;
     width: 33%; /* vsak dukat uzame okol 1/3 sirine*/
     display: flex;

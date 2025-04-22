@@ -21,8 +21,8 @@ if (isset($_POST["start"])) {
     <div class="glavni">
         <div class="gameModal">
             <div class="left">
-                <button class="backBtn">
-                    <img src="assets/backBtn.svg" alt="back img">
+                <button class="backBtn" onclick="location.replace('index.php')">
+                    <img src="assets/backBtn.svg" alt="back">
                 </button>
 
                 <span>Welcome: <?php echo $_SESSION["playerName"]?></span>

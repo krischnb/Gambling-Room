@@ -14,7 +14,7 @@
 
             <div class="cont">
                 <label for="player">Your name:</label>
-                <input class="nameInput" type="text" name="player" maxlength="20" required>
+                <input class="nameInput" type="text" name="player" maxlength="20" placeholder="What's your name?" required>
             </div>
 
             <div class="cont">

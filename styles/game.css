@@ -1,0 +1,182 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+html, body{
+    height: 100%;
+    width: 100%;
+}
+.glavniGame{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background-color: #006400;
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.gameModal{
+    display: flex;
+    justify-content: space-evenly;
+    height: 100vh;
+}
+.left{
+    width: 25vw;
+    height: 100vh;
+    background-color: #2f2f2f;
+    border-top-right-radius: 50px;
+    display: flex;
+    flex-direction: column;
+}
+.left span{
+    font-size: 40px;
+    color: white;
+    font-family: sans-serif;
+    padding-left: 10px;
+}
+.backBtn{
+    height: 60px;
+    width: 60px;
+    margin: 10px;
+    border-radius: 16px;
+    border: none;
+    transition-duration: 0.2s;
+    margin-bottom: 30px;
+}
+.backBtn:hover{
+    background-color: gray;
+    transition-duration: 0.2s;
+}
+.backBtn img{
+    height: inherit;
+    width: inherit;
+    scale: 0.8;
+}
+.spinBtn{
+    margin-top: 30px;
+    width: 80%;
+    align-self: center;
+    font-size: 26px;
+    padding: 10px;
+    border-radius: 16px;
+    border: none;
+    transition-duration: 0.2s;
+}
+.spinBtn:hover{
+    background-color: gray;
+    transition-duration: 0.2s;
+}
+.gamePanel{
+    height: 100vh;
+    width: 75vw;
+    flex-direction: column;
+}
+.rouletteCont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 60%;
+}
+.roulette{
+    height: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.ballCont{
+    height: 70%;
+    aspect-ratio: 1;
+    position: absolute;
+}
+.wheel{
+    background-image: url(../assets/ruleta2.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 90%;
+    aspect-ratio: 1;
+    background-color: #2f2f2f;
+    transition-duration: 0.2s;
+    border-radius: 100%;
+    border: 10px solid #2f2f2f;
+    animation: rotateLeft 10s linear infinite;
+    position: absolute;
+}
+@keyframes rotateLeft {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg); /* negative for left rotation */
+    }
+}
+.numbers{
+    height: 40%;
+    width: 100%;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
+.gridSection {
+    display: grid;
+    grid-auto-flow: column; /* fil preko stolpcev, da bo zaporedje prav - tako kot je napisano v htmlju */
+    grid-template-rows: repeat(5, 1fr); /* 5 enake vrstice */
+    grid-template-columns: repeat(14, 1fr); /* 14 enakih stolpcov*/
+    gap: 6px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+
+.grid-item {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    border-radius: 8px;
+    font-size: 19px;
+    font-weight: bold;
+    text-align: center;
+    font-family: sans-serif;
+    transition: 0.2s;
+    user-select: none;
+    border: 2px solid #2f2f2f;
+}
+
+.zero {
+    height: 100%;
+    grid-row: span 3;
+    background-color: green;
+}
+.ducat{
+    grid-column: span 4;
+}
+.halfChance{
+    grid-column: span 2;
+}
+.filler{
+    opacity: 0;
+    z-index: -10;
+}
+.ducat, .row, .halfChance{
+    background-color: #706b6b;
+}
+.grid-item.red, .redColor {
+    background-color: #ff013c;
+}
+.grid-item.black, .blackColor {
+    background-color: #2b4553;
+}
+.grid-item:hover, .zero:hover {
+    transform: scale(1.1);
+    background-color: gold;
+    color: #000;
+    transition-duration: 0.2s;
+}

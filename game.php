@@ -24,15 +24,67 @@ if (isset($_POST["start"])) {
 <body>
     <div class="glavniGame">
         <div class="gameModal">
-            <div class="left">
+            <div class="menu">
                 <button class="backBtn" onclick="location.replace('index.php')">
                     <img src="assets/backBtn.svg" alt="back">
                 </button>
 
-                <span>Welcome: <?php echo $_SESSION["playerName"] ?></span>
-                <span>Balance: <?php echo $_SESSION["balance"] ?>$</span>
+                <span class="infoLabel">Chip value 1:1</span>
+                <div class="coinSelect">
+                    <div id="chip1" class="chip"></div>
+                    <div id="chip10" class="chip"></div>
+                    <div id="chip25" class="chip"></div>
+                    <div id="chip100" class="chip"></div>
+                    <div id="chip1000" class="chip"></div>
 
-                <button class="spinBtn">Spin</button>
+                </div>
+                <script>
+                    function loadAndModifySVG(filePath, containerId, newText) {
+                        fetch(filePath)
+                            .then(response => response.text())
+                            .then(svgText => {
+                                const container = document.getElementById(containerId);
+                                container.innerHTML = svgText;
+
+                                const textElement = container.querySelector('text');
+                                if (textElement) {
+                                    textElement.textContent = newText;
+                                    textElement.setAttribute('font-family', 'sans-serif');
+                                }
+                            })
+                            .catch(error => console.error(`Error loading ${filePath}:`, error));
+                    }
+
+                    // Load and modify each chip
+                    loadAndModifySVG('assets/chip1.svg', 'chip1', '1');
+                    loadAndModifySVG('assets/chip10.svg', 'chip10', '10');
+                    loadAndModifySVG('assets/chip25.svg', 'chip25', '25');
+                    loadAndModifySVG('assets/chip100.svg', 'chip100', '100');
+                    loadAndModifySVG('assets/chip1K.svg', 'chip1000', '1K');
+                </script>
+
+                <div class="info">
+                    <span class="infoLabel">Name:</span>
+                    <span><?php echo $_SESSION["playerName"] ?></span>
+                </div>
+
+                <div class="info">
+                    <span class="infoLabel">Balance:</span>
+                    <span><?php echo $_SESSION["balance"] ?>$</span>
+                </div>
+
+                <div class="info">
+                    <span class="infoLabel">Total bet:</span>
+                    <span><?php echo $_SESSION["currentBet"] ?>$</span>
+                </div>
+
+                <div class="info">
+                    <span class="infoLabel">Last win:</span>
+                    <span><?php echo $_SESSION["lastResult"] ?>none</span>
+                </div>
+
+
+                <button class="spinBtn">Bet</button>
             </div>
             <div class="gamePanel">
                 <div class="rouletteCont">
@@ -47,7 +99,7 @@ if (isset($_POST["start"])) {
                         <!-- Ničla - 3 vrstice visoka -->
                         <div class="grid-item zero">0</div>
 
-                        <div class="grid-item filler"></div>  <!-- FILLER -->
+                        <div class="grid-item filler"></div> <!-- FILLER -->
                         <div class="grid-item filler"></div>
 
                         <!-- Column 1 -->
@@ -69,7 +121,7 @@ if (isset($_POST["start"])) {
                         <div class="grid-item red">7</div>
 
                         <div class="grid-item halfChance">Even</div>
-                        
+
                         <!-- Column 4 -->
                         <div class="grid-item red">12</div>
                         <div class="grid-item black">11</div>
@@ -88,7 +140,7 @@ if (isset($_POST["start"])) {
                         <div class="grid-item red">18</div>
                         <div class="grid-item black">17</div>
                         <div class="grid-item red">16</div>
-                        
+
 
                         <!-- Column 7 -->
                         <div class="grid-item red">21</div>
@@ -105,7 +157,7 @@ if (isset($_POST["start"])) {
                         <div class="grid-item red">27</div>
                         <div class="grid-item black">26</div>
                         <div class="grid-item red">25</div>
-                        
+
                         <div class="grid-item ducat">25 to 36</div>
                         <div class="grid-item halfChance">Odd</div>
 
@@ -129,7 +181,7 @@ if (isset($_POST["start"])) {
                         <div class="grid-item row">2:1</div>
                         <div class="grid-item row">2:1</div>
                         <div class="grid-item row">2:1</div>
-                        
+
                         <div class="grid-item filler"></div>
                         <div class="grid-item filler"></div>
                     </div>
@@ -138,17 +190,75 @@ if (isset($_POST["start"])) {
         </div>
     </div>
     <script>
-        document.querySelector('.spinBtn').addEventListener('click', function () {
-            const result = Math.floor(Math.random() * 37); // Random number from 0 to 36
+        const playerBalance = <?php echo $_SESSION["balance"]; ?>;
+        let selectedChip = null;
 
-            Swal.fire({
-                title: 'Roulette Spin!',
-                text: 'The ball landed on: ' + result,
-                icon: 'info',
-                confirmButtonText: 'OK'
+        const chips = document.querySelectorAll('.chip');
+        const gridItems = document.querySelectorAll('.grid-item');
+
+        // Define chip values based on their IDs
+        const chipValues = {
+            chip1: 1,
+            chip10: 10,
+            chip25: 25,
+            chip100: 100,
+            chip1000: 1000
+        };
+
+        const chipImages = {
+            chip1: 'assets/chip1.svg',
+            chip10: 'assets/chip10.svg',
+            chip25: 'assets/chip25.svg',
+            chip100: 'assets/chip100.svg',
+            chip1000: 'assets/chip1K.svg',
+        };
+
+        chips.forEach(chip => {
+            const chipId = chip.id;
+            const chipValue = chipValues[chipId];
+
+            if (playerBalance < chipValue) {
+                chip.classList.add('disabled');
+                chip.setAttribute('data-tooltip', 'Not enough balance');
+            }
+
+            chip.addEventListener('click', function () {
+                if (chip.classList.contains('disabled')) {
+                    // If disabled, don't let them select it
+                    return;
+                }
+                selectedChip = chip; // shrani se izbrani chip
+                chips.forEach(c => c.classList.remove('chipPicked'));
+                chip.classList.add('chipPicked');
             });
         });
+
+        gridItems.forEach(gridItem => {
+            gridItem.addEventListener('click', function () {
+                if (selectedChip) {
+                    // Check if a chip (or image) is already placed in this grid item
+                    if (gridItem.querySelector('.placed')) {
+                        return; // Prevent placing another chip if there's already one
+                    }
+
+                    // Create an image element for the chip
+                    const img = document.createElement('img');
+                    img.classList.add('placed'); // Mark the chip as placed
+
+                    // Set the source of the image using the chipImages object
+                    const chipImagePath = chipImages[selectedChip.id];
+                    if (chipImagePath) {
+                        img.src = chipImagePath; // Set the image source from the object
+                    }
+
+                    // Append the image to the grid item
+                    gridItem.appendChild(img);
+                }
+            });
+        });
+
     </script>
+
 </body>
 
 </html>

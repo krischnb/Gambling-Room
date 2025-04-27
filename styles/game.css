@@ -23,24 +23,88 @@ html, body{
     justify-content: space-evenly;
     height: 100vh;
 }
-.left{
+.menu{
     width: 25vw;
     height: 100vh;
     background-color: #2f2f2f;
     border-top-right-radius: 50px;
     display: flex;
     flex-direction: column;
+    gap: 10px;
+    padding: 20px;
 }
-.left span{
-    font-size: 40px;
+.menu span{
+    font-size: 30px;
     color: white;
     font-family: sans-serif;
-    padding-left: 10px;
+}
+.coinSelect{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 3px solid #505050;
+    padding: 10px;
+    border-radius: 10px;
+}
+.chip{
+    height: 60px;
+    width: auto;
+    transition-duration: 0.2s;
+    user-select: none;
+    cursor: pointer;
+    position: relative;
+}
+.chip svg{
+    height: inherit;
+    width: inherit;
+}
+.chipPicked{
+    transform: scale(1.2);
+    transition-duration: 0.2s;
+}
+.chip.disabled{
+    filter: brightness(30%);
+    transition: filter 0.2s ease;
+    cursor: default;
+    
+}
+.chip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%; 
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #505050;
+    color: #fff;
+    font-family: sans-serif;
+    padding: 5px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 15px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+    filter: brightness(100%) !important;
+}
+/* Prikaze tooltip */
+.chip.disabled:hover::after {
+    opacity: 1;
+}
+
+.info{
+    display: flex;
+    gap: 10px;
+}
+.infoLabel{
+    color: gray !important;
+}
+.data{
+    display: flex;
 }
 .backBtn{
     height: 60px;
     width: 60px;
-    margin: 10px;
     border-radius: 16px;
     border: none;
     transition-duration: 0.2s;
@@ -64,6 +128,8 @@ html, body{
     border-radius: 16px;
     border: none;
     transition-duration: 0.2s;
+    background-color: #006400;
+    color: white;
 }
 .spinBtn:hover{
     background-color: gray;
@@ -101,10 +167,10 @@ html, body{
     height: 90%;
     aspect-ratio: 1;
     background-color: #2f2f2f;
+    border: 10px solid #2f2f2f;
     transition-duration: 0.2s;
     border-radius: 100%;
-    border: 10px solid #2f2f2f;
-    animation: rotateLeft 10s linear infinite;
+    animation: rotateLeft 15s linear infinite;
     position: absolute;
 }
 @keyframes rotateLeft {
@@ -112,7 +178,7 @@ html, body{
         transform: rotate(0deg);
     }
     to {
-        transform: rotate(-360deg); /* negative for left rotation */
+        transform: rotate(-360deg); 
     }
 }
 .numbers{
@@ -128,9 +194,12 @@ html, body{
     grid-auto-flow: column; /* fil preko stolpcev, da bo zaporedje prav - tako kot je napisano v htmlju */
     grid-template-rows: repeat(5, 1fr); /* 5 enake vrstice */
     grid-template-columns: repeat(14, 1fr); /* 14 enakih stolpcov*/
-    gap: 6px;
+    gap: 2px;
     width: 100%;
     max-width: 1000px;
+    padding: 15px;
+    border-radius: 10px;
+    position: relative;
 }
 
 
@@ -148,12 +217,19 @@ html, body{
     transition: 0.2s;
     user-select: none;
     border: 2px solid #2f2f2f;
+    position: relative;
 }
-
+.grid-item img.placed {
+    position: absolute;
+    top: 50%; /* center */
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    z-index: 10;
+    height: 100%;
+}
 .zero {
     height: 100%;
     grid-row: span 3;
-    background-color: green;
 }
 .ducat{
     grid-column: span 4;
@@ -164,9 +240,10 @@ html, body{
 .filler{
     opacity: 0;
     z-index: -10;
+    pointer-events: none;
 }
-.ducat, .row, .halfChance{
-    background-color: #706b6b;
+.zero, .ducat, .halfChance{
+    background-color: #006400;
 }
 .grid-item.red, .redColor {
     background-color: #ff013c;
@@ -174,9 +251,6 @@ html, body{
 .grid-item.black, .blackColor {
     background-color: #2b4553;
 }
-.grid-item:hover, .zero:hover {
-    transform: scale(1.1);
-    background-color: gold;
-    color: #000;
-    transition-duration: 0.2s;
+.grid-item:hover{
+    cursor: pointer;
 }

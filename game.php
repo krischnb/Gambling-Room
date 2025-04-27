@@ -70,21 +70,21 @@ if (isset($_POST["start"])) {
 
                 <div class="info">
                     <span class="infoLabel">Balance:</span>
-                    <span><?php echo $_SESSION["balance"] ?>$</span>
+                    <span id="balanceSpan"><?php echo $_SESSION["balance"] ?>$</span>
                 </div>
 
                 <div class="info">
                     <span class="infoLabel">Total bet:</span>
-                    <span><?php echo $_SESSION["currentBet"] ?>$</span>
+                    <span id="totalBetSpan"><?php echo $_SESSION["currentBet"] ?>$</span>
                 </div>
 
                 <div class="info">
                     <span class="infoLabel">Last win:</span>
-                    <span><?php echo $_SESSION["lastResult"] ?>none</span>
+                    <span id="lastBetSpan"><?php echo $_SESSION["lastResult"] ?>none</span>
                 </div>
 
 
-                <button class="spinBtn">Bet</button>
+                <button class="spinBtn" onclick="spin()">Bet</button>
             </div>
             <div class="gamePanel">
                 <div class="rouletteCont">
@@ -190,8 +190,16 @@ if (isset($_POST["start"])) {
         </div>
     </div>
     <script>
-        const playerBalance = <?php echo $_SESSION["balance"]; ?>;
+        let playerBalance = <?php echo $_SESSION["balance"]; ?>;
+        let totalBet = 0;
+        let lastWin = 0;
         let selectedChip = null;
+
+        let singleBet = 0;
+
+        const lastBetSpan = document.getElementById("lastBetSpan");
+        const balanceSpan = document.getElementById("balanceSpan");
+        const totalBetSpan = document.getElementById("totalBetSpan");
 
         const chips = document.querySelectorAll('.chip');
         const gridItems = document.querySelectorAll('.grid-item');
@@ -213,35 +221,48 @@ if (isset($_POST["start"])) {
             chip1000: 'assets/chip1K.svg',
         };
 
-        chips.forEach(chip => {
-            const chipId = chip.id;
-            const chipValue = chipValues[chipId];
+        function updateChipAvailability() {
+            chips.forEach(chip => {
+                const chipId = chip.id;
+                const chipValue = chipValues[chipId];
 
-            if (playerBalance < chipValue) {
-                chip.classList.add('disabled');
-                chip.setAttribute('data-tooltip', 'Not enough balance');
-            }
+                // Disable chip if player balance is less than chip value
+                if (playerBalance < chipValue) {
+                    chip.classList.add('disabled');
+                    chip.setAttribute('data-tooltip', 'Not enough balance');
+                    chip.classList.remove('chipPicked');
 
-            chip.addEventListener('click', function () {
-                if (chip.classList.contains('disabled')) {
-                    // If disabled, don't let them select it
-                    return;
+                } else {
+                    chip.classList.remove('disabled');
+                    chip.removeAttribute('data-tooltip');
                 }
-                selectedChip = chip; // shrani se izbrani chip
-                chips.forEach(c => c.classList.remove('chipPicked'));
-                chip.classList.add('chipPicked');
+
+
+                // Add event listener for chip selection
+                chip.addEventListener('click', function () {
+                    if (chip.classList.contains('disabled')) {
+                        // If disabled, don't let them select it
+                        return;
+                    }
+                    selectedChip = chip; // store the selected chip
+                    chips.forEach(c => c.classList.remove('chipPicked'));
+                    chip.classList.add('chipPicked');
+                });
             });
-        });
+        }
+
+        // Initialize chip availability
+        updateChipAvailability();
 
         gridItems.forEach(gridItem => {
             gridItem.addEventListener('click', function () {
-                if (selectedChip) {
-                    // Check if a chip (or image) is already placed in this grid item
-                    if (gridItem.querySelector('.placed')) {
-                        return; // Prevent placing another chip if there's already one
-                    }
+                if (selectedChip === null) {
+                    alert("Select a chip first.");
+                    return;
+                }
+                if (selectedChip && playerBalance >= chipValues[selectedChip.id]) {
 
-                    // Create an image element for the chip
+                    // graficni prikaz
                     const img = document.createElement('img');
                     img.classList.add('placed'); // Mark the chip as placed
 
@@ -253,9 +274,29 @@ if (isset($_POST["start"])) {
 
                     // Append the image to the grid item
                     gridItem.appendChild(img);
+
+                    // fizicno urejanje
+                    singleBet = chipValues[selectedChip.id];
+                    totalBet = totalBet + singleBet;
+                    totalBetSpan.textContent = totalBet + "$";
+                    playerBalance = playerBalance - singleBet;
+                    balanceSpan.textContent = playerBalance + "$";
+
+                    updateChipAvailability();
                 }
             });
         });
+
+        function spin() {
+            let random = Math.floor(Math.random() * 37);
+
+            Swal.fire({
+                title: 'Roulette spin!',
+                text: 'The ball has landed on ' + random,
+                icon: 'info',
+                confirmButtonText: 'Okay'
+            });
+        }
 
     </script>
 

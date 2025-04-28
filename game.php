@@ -5,7 +5,7 @@ if (isset($_POST["start"])) {
     $_SESSION["playerName"] = $_POST["player"];
     $_SESSION["balance"] = $_POST["balance"];
     $_SESSION["currentBet"] = 0;
-    $_SESSION["lastResult"] = null;
+    $_SESSION["lastResult"] = 0;
 }
 ?>
 
@@ -80,7 +80,7 @@ if (isset($_POST["start"])) {
 
                 <div class="info">
                     <span class="infoLabel">Last win:</span>
-                    <span id="lastBetSpan"><?php echo $_SESSION["lastResult"] ?>none</span>
+                    <span id="lastWinSpan"><?php echo $_SESSION["lastResult"] ?>$</span>
                 </div>
 
 
@@ -95,95 +95,92 @@ if (isset($_POST["start"])) {
                 </div>
                 <div class="numbers">
                     <div class="gridSection">
-
                         <!-- Ničla - 3 vrstice visoka -->
-                        <div class="grid-item zero">0</div>
+                        <div class="grid-item zero" data-bet="0">0</div>
 
-                        <div class="grid-item filler"></div> <!-- FILLER -->
-                        <div class="grid-item filler"></div>
+                        <div class="grid-item filler" data-bet="filler"></div> <!-- FILLER -->
+                        <div class="grid-item filler" data-bet="filler"></div>
 
                         <!-- Column 1 -->
-                        <div class="grid-item red">3</div>
-                        <div class="grid-item black">2</div>
-                        <div class="grid-item red">1</div>
+                        <div class="grid-item red" data-bet="3">3</div>
+                        <div class="grid-item black" data-bet="2">2</div>
+                        <div class="grid-item red" data-bet="1">1</div>
 
-                        <div class="grid-item ducat">1 to 12</div>
-                        <div class="grid-item halfChance">1 to 18</div>
+                        <div class="grid-item ducat" data-bet="ducat1">1 to 12</div>
+                        <div class="grid-item halfChance" data-bet="1to18">1 to 18</div>
 
                         <!-- Column 2 -->
-                        <div class="grid-item black">6</div>
-                        <div class="grid-item red">5</div>
-                        <div class="grid-item black">4</div>
+                        <div class="grid-item black" data-bet="6">6</div>
+                        <div class="grid-item red" data-bet="5">5</div>
+                        <div class="grid-item black" data-bet="4">4</div>
 
                         <!-- Column 3 -->
-                        <div class="grid-item red">9</div>
-                        <div class="grid-item black">8</div>
-                        <div class="grid-item red">7</div>
+                        <div class="grid-item red" data-bet="9">9</div>
+                        <div class="grid-item black" data-bet="8">8</div>
+                        <div class="grid-item red" data-bet="7">7</div>
 
-                        <div class="grid-item halfChance">Even</div>
+                        <div class="grid-item halfChance" data-bet="even">Even</div>
 
                         <!-- Column 4 -->
-                        <div class="grid-item red">12</div>
-                        <div class="grid-item black">11</div>
-                        <div class="grid-item black">10</div>
+                        <div class="grid-item red" data-bet="12">12</div>
+                        <div class="grid-item black" data-bet="11">11</div>
+                        <div class="grid-item black" data-bet="10">10</div>
 
                         <!-- Column 5 -->
-                        <div class="grid-item black">15</div>
-                        <div class="grid-item red">14</div>
-                        <div class="grid-item black">13</div>
+                        <div class="grid-item black" data-bet="15">15</div>
+                        <div class="grid-item red" data-bet="14">14</div>
+                        <div class="grid-item black" data-bet="13">13</div>
 
-                        <div class="grid-item ducat">13 to 24</div>
+                        <div class="grid-item ducat" data-bet="ducat2">13 to 24</div>
 
-                        <div class="grid-item halfChance redColor"></div>
+                        <div class="grid-item halfChance redColor" data-bet="redColor"></div>
 
                         <!-- Column 6 -->
-                        <div class="grid-item red">18</div>
-                        <div class="grid-item black">17</div>
-                        <div class="grid-item red">16</div>
-
+                        <div class="grid-item red" data-bet="18">18</div>
+                        <div class="grid-item black" data-bet="17">17</div>
+                        <div class="grid-item red" data-bet="16">16</div>
 
                         <!-- Column 7 -->
-                        <div class="grid-item red">21</div>
-                        <div class="grid-item black">20</div>
-                        <div class="grid-item red">19</div>
-                        <div class="grid-item halfChance blackColor"></div>
+                        <div class="grid-item red" data-bet="21">21</div>
+                        <div class="grid-item black" data-bet="20">20</div>
+                        <div class="grid-item red" data-bet="19">19</div>
+                        <div class="grid-item halfChance blackColor" data-bet="blackColor"></div>
 
                         <!-- Column 8 -->
-                        <div class="grid-item black">24</div>
-                        <div class="grid-item red">23</div>
-                        <div class="grid-item black">22</div>
+                        <div class="grid-item black" data-bet="24">24</div>
+                        <div class="grid-item red" data-bet="23">23</div>
+                        <div class="grid-item black" data-bet="22">22</div>
 
                         <!-- Column 9 -->
-                        <div class="grid-item red">27</div>
-                        <div class="grid-item black">26</div>
-                        <div class="grid-item red">25</div>
+                        <div class="grid-item red" data-bet="27">27</div>
+                        <div class="grid-item black" data-bet="26">26</div>
+                        <div class="grid-item red" data-bet="25">25</div>
 
-                        <div class="grid-item ducat">25 to 36</div>
-                        <div class="grid-item halfChance">Odd</div>
+                        <div class="grid-item ducat" data-bet="ducat3">25 to 36</div>
+                        <div class="grid-item halfChance" data-bet="odd">Odd</div>
 
                         <!-- Column 10 -->
-                        <div class="grid-item red">30</div>
-                        <div class="grid-item black">29</div>
-                        <div class="grid-item black">28</div>
+                        <div class="grid-item red" data-bet="30">30</div>
+                        <div class="grid-item black" data-bet="29">29</div>
+                        <div class="grid-item black" data-bet="29">28</div>
 
                         <!-- Column 11 -->
-                        <div class="grid-item black">33</div>
-                        <div class="grid-item red">32</div>
-                        <div class="grid-item black">31</div>
-                        <div class="grid-item halfChance">19 to 36</div>
+                        <div class="grid-item black" data-bet="33">33</div>
+                        <div class="grid-item red" data-bet="32">32</div>
+                        <div class="grid-item black" data-bet="31">31</div>
+                        <div class="grid-item halfChance" data-bet="19to36">19 to 36</div>
 
                         <!-- Column 12 -->
-                        <div class="grid-item red">36</div>
-                        <div class="grid-item black">35</div>
-                        <div class="grid-item red">34</div>
+                        <div class="grid-item red" data-bet="36">36</div>
+                        <div class="grid-item black" data-bet="35">35</div>
+                        <div class="grid-item red" data-bet="34">34</div>
 
+                        <div class="grid-item row" data-bet="row1">2:1</div>
+                        <div class="grid-item row" data-bet="row2">2:1</div>
+                        <div class="grid-item row" data-bet="row3">2:1</div>
 
-                        <div class="grid-item row">2:1</div>
-                        <div class="grid-item row">2:1</div>
-                        <div class="grid-item row">2:1</div>
-
-                        <div class="grid-item filler"></div>
-                        <div class="grid-item filler"></div>
+                        <div class="grid-item filler" data-bet="filler"></div>
+                        <div class="grid-item filler" data-bet="filler"></div>
                     </div>
                 </div>
             </div>
@@ -197,7 +194,7 @@ if (isset($_POST["start"])) {
 
         let singleBet = 0;
 
-        const lastBetSpan = document.getElementById("lastBetSpan");
+        const lastWinSpan = document.getElementById("lastWinSpan");
         const balanceSpan = document.getElementById("balanceSpan");
         const totalBetSpan = document.getElementById("totalBetSpan");
 
@@ -257,12 +254,17 @@ if (isset($_POST["start"])) {
         gridItems.forEach(gridItem => {
             gridItem.addEventListener('click', function () {
                 if (selectedChip === null) {
-                    alert("Select a chip first.");
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Select a chip first',
+                        icon: 'error',
+                        confirmButtonText: 'Okay'
+                    });
                     return;
                 }
                 if (selectedChip && playerBalance >= chipValues[selectedChip.id]) {
 
-                    // graficni prikaz
+                    // ---- graficni prikaz ----
                     const img = document.createElement('img');
                     img.classList.add('placed'); // Mark the chip as placed
 
@@ -275,7 +277,12 @@ if (isset($_POST["start"])) {
                     // Append the image to the grid item
                     gridItem.appendChild(img);
 
-                    // fizicno urejanje
+                    // ---- fizicno urejanje ----
+
+                    const currentBet = parseInt(gridItem.dataset.value || 0);
+                    gridItem.dataset.value = currentBet + chipValues[selectedChip.id];
+                    // v grid item se shrani kolicina stave, bolj specificno v data-value
+
                     singleBet = chipValues[selectedChip.id];
                     totalBet = totalBet + singleBet;
                     totalBetSpan.textContent = totalBet + "$";
@@ -288,17 +295,137 @@ if (isset($_POST["start"])) {
         });
 
         function spin() {
+            if (totalBet < 1) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Place your bets first!',
+                    icon: 'error',
+                    confirmButtonText: 'Okay'
+                });
+                return;
+            }
+
             let random = Math.floor(Math.random() * 37);
+
+            calculateWin(random);
 
             Swal.fire({
                 title: 'Roulette spin!',
-                text: 'The ball has landed on ' + random,
+                html: `
+                    <div style="text-align: center; font-family: sans-serif;">
+                        The ball has landed on <strong>${random} ${getRandomColor(random)}</strong><br>
+                        <span style="font-size: 18px; margin-top: 10px; font-family: sans-serif;">
+                            Total bet: ${totalBet}$. You won ${lastWin > 0 ? '$' + lastWin : 'nothing'}!
+                        </span>
+                    </div>
+                `,
                 icon: 'info',
-                confirmButtonText: 'Okay'
+                confirmButtonText: 'Okay',
+                allowOutsideClick: true,
+                allowEscapeKey: true
+            }).then(() => {
+                clearRound(); 
+            });
+
+        }
+
+        function calculateWin(random) {
+            lastWin = 0;
+
+            const randomDucat = getRandomDucat(random);
+            const randomRow = getRandomRow(random);
+            const randomColor = getRandomColor(random);
+            const randomParity = getRandomParity(random);
+            const randomHalf = getRandomHalf(random);
+            // preveri kam si stavil, in koliko
+            gridItems.forEach(gridItem => {
+                const betValue = parseInt(gridItem.dataset.value || 0);  // Get the bet total for this cell
+                const betName = gridItem.dataset.bet;  // This holds the name of the cell (e.g., "ducat1", "6", etc.)
+
+                if (betValue > 0) { // bo slo gledat za celice, samo ce je gori stava
+                    // bo slo specificno gledat kam je bil postavljen in ce si zmagal bo izplacalo bo kolikor je vrednost celice
+
+                    // Check for ducat bet (1-12, 13-24, 25-36)
+                    if (betName === 'ducat1' && randomDucat === 'ducat1') {
+                        playerBalance += betValue * 3;  // Pays 3x for 1-12
+                        lastWin += betValue * 3;
+                    } else if (betName === 'ducat2' && randomDucat === 'ducat2') {
+                        playerBalance += betValue * 3;  // Pays 3x for 13-24
+                        lastWin += betValue * 3;
+                    } else if (betName === 'ducat3' && randomDucat === 'ducat3') {
+                        playerBalance += betValue * 3;  // Pays 3x for 25-36
+                        lastWin += betValue * 3;
+                    }
+
+                    // Check for row bets (row1, row2, row3)
+                    if (betName === 'row1' && randomRow === 'row1') {
+                        playerBalance += betValue * 3;  // Pays 3x for row1
+                        lastWin += betValue * 3;
+                    } else if (betName === 'row2' && randomRow === 'row2') {
+                        playerBalance += betValue * 3;  // Pays 3x for row2
+                        lastWin += betValue * 3;
+                    } else if (betName === 'row3' && randomRow === 'row3') {
+                        playerBalance += betValue * 3;  // Pays 3x for row3
+                        lastWin += betValue * 3;
+                    }
+
+                    // Check for color bets (Red, Black)
+                    if (betName === 'redColor' && randomColor === 'red') {
+                        playerBalance += betValue * 2;  // Pays 2x for Red
+                        lastWin += betValue * 2;
+                    } else if (betName === 'blackColor' && randomColor === 'black') {
+                        playerBalance += betValue * 2;  // Pays 2x for Black
+                        lastWin += betValue * 2;
+                    }
+
+                    // Check for parity bets (Even, Odd)
+                    if (betName === 'even' && randomParity === 'even') {
+                        playerBalance += betValue * 2;  // Pays 2x for Even
+                        lastWin += betValue * 2;
+                    } else if (betName === 'odd' && randomParity === 'odd') {
+                        playerBalance += betValue * 2;  // Pays 2x for Odd
+                        lastWin += betValue * 2;
+                    }
+
+                    // Check for half bets (1 to 18, 19 to 36)
+                    if (betName === '1to18' && randomHalf === '1to18') {
+                        playerBalance += betValue * 2;  // Pays 2x for 1-18
+                        lastWin += betValue * 2;
+                    } else if (betName === '19to36' && randomHalf === '19to36') {
+                        playerBalance += betValue * 2;  // Pays 2x for 19-36
+                        lastWin += betValue * 2;
+                    }
+
+                    // Ce si stavu na stevilko, in je bila taprava
+                    if (betName === random.toString()) {
+                        playerBalance += betValue * 36;
+                        lastWin += betValue * 36;
+                    }
+                }
+            });
+            balanceSpan.textContent = playerBalance + "$";
+            lastWinSpan.textContent = lastWin + "$";
+
+
+
+            gridItems.forEach(gridItem => { // zbrise vsem cellam podatke o stavi
+                delete gridItem.dataset.value;
             });
         }
 
+        function clearRound() {
+            gridItems.forEach(gridItem => {
+                const placedChips = gridItem.querySelectorAll('.placed');
+                placedChips.forEach(chip => chip.remove()); delete gridItem.dataset.value;  // Clear bet value
+            });
+
+            totalBet = 0;
+            totalBetSpan.textContent = totalBet + "$";
+
+            updateChipAvailability();
+        }
     </script>
+    <script src="js/infoRand.js"></script>
 
 </body>
 

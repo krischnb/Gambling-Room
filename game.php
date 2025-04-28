@@ -5,7 +5,9 @@ if (isset($_POST["start"])) {
     $_SESSION["playerName"] = $_POST["player"];
     $_SESSION["balance"] = $_POST["balance"];
     $_SESSION["currentBet"] = 0;
-    $_SESSION["lastResult"] = 0;
+    $_SESSION["lastResult"] = 0; 
+    header("Location: game.php"); 
+    exit(); 
 }
 ?>
 
@@ -288,7 +290,6 @@ if (isset($_POST["start"])) {
                     totalBetSpan.textContent = totalBet + "$";
                     playerBalance = playerBalance - singleBet;
                     balanceSpan.textContent = playerBalance + "$";
-
                     updateChipAvailability();
                 }
             });
@@ -309,6 +310,7 @@ if (isset($_POST["start"])) {
 
             calculateWin(random);
 
+            updateSession();
             Swal.fire({
                 title: 'Roulette spin!',
                 html: `
@@ -325,7 +327,10 @@ if (isset($_POST["start"])) {
                 allowEscapeKey: true
             }).then(() => {
                 clearRound(); 
+                updateSession();
             });
+            
+            
 
         }
 
@@ -420,11 +425,11 @@ if (isset($_POST["start"])) {
             
             balanceSpan.textContent = playerBalance + "$";
             lastWinSpan.textContent = lastWin + "$";
-
             updateChipAvailability();
         }
     </script>
     <script src="js/infoRand.js"></script>
+    <script src="js/updateSession.js"></script>
 
 </body>
 

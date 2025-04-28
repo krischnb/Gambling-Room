@@ -18,7 +18,7 @@ if (isset($_POST["start"])) {
     <title>Roulette</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="styles/game.css">
-    <link rel="icon" type="image/x-icon" href="assets/ruletFavicon.png">
+    <link rel="icon" type="image/x-icon" href="assets/favIcon.png">
 </head>
 
 <body>
@@ -403,10 +403,6 @@ if (isset($_POST["start"])) {
                     }
                 }
             });
-            balanceSpan.textContent = playerBalance + "$";
-            lastWinSpan.textContent = lastWin + "$";
-
-
 
             gridItems.forEach(gridItem => { // zbrise vsem cellam podatke o stavi
                 delete gridItem.dataset.value;
@@ -421,6 +417,9 @@ if (isset($_POST["start"])) {
 
             totalBet = 0;
             totalBetSpan.textContent = totalBet + "$";
+            
+            balanceSpan.textContent = playerBalance + "$";
+            lastWinSpan.textContent = lastWin + "$";
 
             updateChipAvailability();
         }

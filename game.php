@@ -5,9 +5,9 @@ if (isset($_POST["start"])) {
     $_SESSION["playerName"] = $_POST["player"];
     $_SESSION["balance"] = $_POST["balance"];
     $_SESSION["currentBet"] = 0;
-    $_SESSION["lastResult"] = 0; 
-    header("Location: game.php"); 
-    exit(); 
+    $_SESSION["lastResult"] = 0;
+    header("Location: game.php");
+    exit();
 }
 ?>
 
@@ -90,10 +90,7 @@ if (isset($_POST["start"])) {
             </div>
             <div class="gamePanel">
                 <div class="rouletteCont">
-                    <div class="roulette">
-                        <div class="wheel"></div>
-                        <div class="ballCont"></div>
-                    </div>
+                    <canvas id="roulette" width="400" height="400"></canvas>
                 </div>
                 <div class="numbers">
                     <div class="gridSection">
@@ -253,47 +250,7 @@ if (isset($_POST["start"])) {
         // Initialize chip availability
         updateChipAvailability();
 
-        gridItems.forEach(gridItem => {
-            gridItem.addEventListener('click', function () {
-                if (selectedChip === null) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Select a chip first',
-                        icon: 'error',
-                        confirmButtonText: 'Okay'
-                    });
-                    return;
-                }
-                if (selectedChip && playerBalance >= chipValues[selectedChip.id]) {
 
-                    // ---- graficni prikaz ----
-                    const img = document.createElement('img');
-                    img.classList.add('placed'); // Mark the chip as placed
-
-                    // Set the source of the image using the chipImages object
-                    const chipImagePath = chipImages[selectedChip.id];
-                    if (chipImagePath) {
-                        img.src = chipImagePath; // Set the image source from the object
-                    }
-
-                    // Append the image to the grid item
-                    gridItem.appendChild(img);
-
-                    // ---- fizicno urejanje ----
-
-                    const currentBet = parseInt(gridItem.dataset.value || 0);
-                    gridItem.dataset.value = currentBet + chipValues[selectedChip.id];
-                    // v grid item se shrani kolicina stave, bolj specificno v data-value
-
-                    singleBet = chipValues[selectedChip.id];
-                    totalBet = totalBet + singleBet;
-                    totalBetSpan.textContent = totalBet + "$";
-                    playerBalance = playerBalance - singleBet;
-                    balanceSpan.textContent = playerBalance + "$";
-                    updateChipAvailability();
-                }
-            });
-        });
 
         function spin() {
             if (totalBet < 1) {
@@ -306,14 +263,16 @@ if (isset($_POST["start"])) {
                 return;
             }
 
-            let random = Math.floor(Math.random() * 37);
+            let random = randomNumber();
 
+            spinBall(random);
             calculateWin(random);
+        }
 
-            updateSession();
-            Swal.fire({
-                title: 'Roulette spin!',
-                html: `
+        function endResult(random) {
+                Swal.fire({
+                    title: 'Roulette spin!',
+                    html: `
                     <div style="text-align: center; font-family: sans-serif;">
                         The ball has landed on <strong>${random} ${getRandomColor(random)}</strong><br>
                         <span style="font-size: 18px; margin-top: 10px; font-family: sans-serif;">
@@ -321,115 +280,35 @@ if (isset($_POST["start"])) {
                         </span>
                     </div>
                 `,
-                icon: 'info',
-                confirmButtonText: 'Okay',
-                allowOutsideClick: true,
-                allowEscapeKey: true
-            }).then(() => {
-                clearRound(); 
-                updateSession();
-            });
-            
-            
-
-        }
-
-        function calculateWin(random) {
-            lastWin = 0;
-
-            const randomDucat = getRandomDucat(random);
-            const randomRow = getRandomRow(random);
-            const randomColor = getRandomColor(random);
-            const randomParity = getRandomParity(random);
-            const randomHalf = getRandomHalf(random);
-            // preveri kam si stavil, in koliko
-            gridItems.forEach(gridItem => {
-                const betValue = parseInt(gridItem.dataset.value || 0);  // Get the bet total for this cell
-                const betName = gridItem.dataset.bet;  // This holds the name of the cell (e.g., "ducat1", "6", etc.)
-
-                if (betValue > 0) { // bo slo gledat za celice, samo ce je gori stava
-                    // bo slo specificno gledat kam je bil postavljen in ce si zmagal bo izplacalo bo kolikor je vrednost celice
-
-                    // Check for ducat bet (1-12, 13-24, 25-36)
-                    if (betName === 'ducat1' && randomDucat === 'ducat1') {
-                        playerBalance += betValue * 3;  // Pays 3x for 1-12
-                        lastWin += betValue * 3;
-                    } else if (betName === 'ducat2' && randomDucat === 'ducat2') {
-                        playerBalance += betValue * 3;  // Pays 3x for 13-24
-                        lastWin += betValue * 3;
-                    } else if (betName === 'ducat3' && randomDucat === 'ducat3') {
-                        playerBalance += betValue * 3;  // Pays 3x for 25-36
-                        lastWin += betValue * 3;
-                    }
-
-                    // Check for row bets (row1, row2, row3)
-                    if (betName === 'row1' && randomRow === 'row1') {
-                        playerBalance += betValue * 3;  // Pays 3x for row1
-                        lastWin += betValue * 3;
-                    } else if (betName === 'row2' && randomRow === 'row2') {
-                        playerBalance += betValue * 3;  // Pays 3x for row2
-                        lastWin += betValue * 3;
-                    } else if (betName === 'row3' && randomRow === 'row3') {
-                        playerBalance += betValue * 3;  // Pays 3x for row3
-                        lastWin += betValue * 3;
-                    }
-
-                    // Check for color bets (Red, Black)
-                    if (betName === 'redColor' && randomColor === 'red') {
-                        playerBalance += betValue * 2;  // Pays 2x for Red
-                        lastWin += betValue * 2;
-                    } else if (betName === 'blackColor' && randomColor === 'black') {
-                        playerBalance += betValue * 2;  // Pays 2x for Black
-                        lastWin += betValue * 2;
-                    }
-
-                    // Check for parity bets (Even, Odd)
-                    if (betName === 'even' && randomParity === 'even') {
-                        playerBalance += betValue * 2;  // Pays 2x for Even
-                        lastWin += betValue * 2;
-                    } else if (betName === 'odd' && randomParity === 'odd') {
-                        playerBalance += betValue * 2;  // Pays 2x for Odd
-                        lastWin += betValue * 2;
-                    }
-
-                    // Check for half bets (1 to 18, 19 to 36)
-                    if (betName === '1to18' && randomHalf === '1to18') {
-                        playerBalance += betValue * 2;  // Pays 2x for 1-18
-                        lastWin += betValue * 2;
-                    } else if (betName === '19to36' && randomHalf === '19to36') {
-                        playerBalance += betValue * 2;  // Pays 2x for 19-36
-                        lastWin += betValue * 2;
-                    }
-
-                    // Ce si stavu na stevilko, in je bila taprava
-                    if (betName === random.toString()) {
-                        playerBalance += betValue * 36;
-                        lastWin += betValue * 36;
-                    }
-                }
-            });
-
-            gridItems.forEach(gridItem => { // zbrise vsem cellam podatke o stavi
-                delete gridItem.dataset.value;
-            });
-        }
+                    icon: 'info',
+                    confirmButtonText: 'Okay',
+                    allowOutsideClick: true,
+                    allowEscapeKey: true
+                }).then(() => {
+                    clearRound();
+                    updateSession();
+                });
+            }
 
         function clearRound() {
             gridItems.forEach(gridItem => {
-                const placedChips = gridItem.querySelectorAll('.placed');
+                const placedChips = gridItem.querySelectorAll('.placed-chip');
                 placedChips.forEach(chip => chip.remove()); delete gridItem.dataset.value;  // Clear bet value
             });
 
             totalBet = 0;
             totalBetSpan.textContent = totalBet + "$";
-            
+
             balanceSpan.textContent = playerBalance + "$";
             lastWinSpan.textContent = lastWin + "$";
             updateChipAvailability();
         }
     </script>
     <script src="js/infoRand.js"></script>
+    <script src="js/payment.js"></script>
     <script src="js/updateSession.js"></script>
+    <script src="js/chipPlace.js"></script>
+    <script src="js/animation.js"></script>
 
 </body>
 

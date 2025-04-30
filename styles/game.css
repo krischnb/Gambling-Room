@@ -1,14 +1,16 @@
-*{
-    margin:0;
-    padding:0;
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-html, body{
+html,
+body {
     height: 100%;
     width: 100%;
 }
-.glavniGame{
+
+.glavniGame {
     display: flex;
     justify-content: center;
     height: 100%;
@@ -18,12 +20,14 @@ html, body{
     background-size: cover;
     background-repeat: no-repeat;
 }
-.gameModal{
+
+.gameModal {
     display: flex;
     justify-content: space-evenly;
     height: 100vh;
 }
-.menu{
+
+.menu {
     width: 25vw;
     height: 100vh;
     background-color: #2f2f2f;
@@ -33,12 +37,14 @@ html, body{
     gap: 10px;
     padding: 20px;
 }
-.menu span{
+
+.menu span {
     font-size: 30px;
     color: white;
     font-family: sans-serif;
 }
-.coinSelect{
+
+.coinSelect {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -46,7 +52,8 @@ html, body{
     padding: 10px;
     border-radius: 10px;
 }
-.chip{
+
+.chip {
     height: 60px;
     width: auto;
     transition-duration: 0.2s;
@@ -54,24 +61,28 @@ html, body{
     cursor: pointer;
     position: relative;
 }
-.chip svg{
+
+.chip svg {
     height: inherit;
     width: inherit;
 }
-.chipPicked{
+
+.chipPicked {
     transform: scale(1.2);
     transition-duration: 0.2s;
 }
-.chip.disabled{
+
+.chip.disabled {
     filter: brightness(30%);
     transition: filter 0.2s ease;
     cursor: default;
-    
+
 }
+
 .chip::after {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: 120%; 
+    bottom: 120%;
     left: 50%;
     transform: translateX(-50%);
     background-color: #505050;
@@ -87,22 +98,26 @@ html, body{
     z-index: 10;
     filter: brightness(100%) !important;
 }
+
 /* Prikaze tooltip */
 .chip.disabled:hover::after {
     opacity: 1;
 }
 
-.info{
+.info {
     display: flex;
     gap: 10px;
 }
-.infoLabel{
+
+.infoLabel {
     color: gray !important;
 }
-.data{
+
+.data {
     display: flex;
 }
-.backBtn{
+
+.backBtn {
     height: 60px;
     width: 60px;
     border-radius: 16px;
@@ -110,16 +125,61 @@ html, body{
     transition-duration: 0.2s;
     margin-bottom: 30px;
 }
-.backBtn:hover{
+
+.backBtn:hover {
     background-color: gray;
     transition-duration: 0.2s;
 }
-.backBtn img{
+
+.backBtn img {
     height: inherit;
     width: inherit;
     scale: 0.8;
 }
-.spinBtn{
+
+.btnCont{
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: center;
+}
+.btnCont button{
+    padding: 10px;
+    border: 3px solid #505050;
+    background-color: rgb(0, 0, 0, 0);
+    transition-duration: 0.2s;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 35%;
+    border-radius: 16px;
+    transition-duration: 0.2s;
+}
+
+.btnCont button:hover{
+    background-color: #484545 !important;
+}
+
+.btnCont button svg {
+    width: 30px;
+    aspect-ratio: 1;
+    fill: #ffffff;
+    transition-duration: 0.2s;
+}
+#repeatBtn svg {
+    transform: rotate(180deg);
+}
+
+.btnCont button span{
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 22px;
+    transition-duration: 0.2s;
+}
+
+
+.spinBtn {
     margin-top: 30px;
     width: 80%;
     align-self: center;
@@ -131,30 +191,35 @@ html, body{
     background-color: #006400;
     color: white;
 }
-.spinBtn:hover{
-    background-color: gray;
+
+.spinBtn:hover {
+    background-color: #065006;
     transition-duration: 0.2s;
 }
-.gamePanel{
+
+.gamePanel {
     height: 100vh;
     width: 75vw;
     flex-direction: column;
 }
-.rouletteCont{
+
+.rouletteCont {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 60%;
 }
-#roulette{
-    height:80%;
+
+#roulette {
+    height: 80%;
     aspect-ratio: 1;
     background-color: #2f2f2f;
     border: 10px solid #2f2f2f;
     border-radius: 100%;
 }
-.wheel{
+
+.wheel {
     background-image: url(../assets/ruleta2.png);
     background-size: cover;
     background-repeat: no-repeat;
@@ -167,27 +232,33 @@ html, body{
     animation: rotateLeft 15s linear infinite;
     position: absolute;
 }
+
 @keyframes rotateLeft {
     from {
         transform: rotate(0deg);
     }
+
     to {
-        transform: rotate(-360deg); 
+        transform: rotate(-360deg);
     }
 }
-.numbers{
+
+.numbers {
     height: 40%;
     width: 100%;
     display: flex;
-    align-items: center; 
+    align-items: center;
     justify-content: center;
 }
 
 .gridSection {
     display: grid;
-    grid-auto-flow: column; /* fil preko stolpcev, da bo zaporedje prav - tako kot je napisano v htmlju */
-    grid-template-rows: repeat(5, 1fr); /* 5 enake vrstice */
-    grid-template-columns: repeat(14, 1fr); /* 14 enakih stolpcov*/
+    grid-auto-flow: column;
+    /* fil preko stolpcev, da bo zaporedje prav - tako kot je napisano v htmlju */
+    grid-template-rows: repeat(5, 1fr);
+    /* 5 enake vrstice */
+    grid-template-columns: repeat(14, 1fr);
+    /* 14 enakih stolpcov*/
     gap: 2px;
     width: 100%;
     max-width: 1000px;
@@ -213,44 +284,60 @@ html, body{
     border: 2px solid #2f2f2f;
     position: relative;
 }
+
 .grid-item img.placed {
     position: absolute;
-    top: 50%; /* center */
-    left: 50%; 
-    transform: translate(-50%, -50%); 
+    top: 50%;
+    /* center */
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 10;
     height: 55px;
     aspect-ratio: 1;
 }
+
 .zero {
     height: 100%;
     grid-row: span 3;
 }
-.ducat{
+
+.ducat {
     grid-column: span 4;
 }
-.halfChance{
+
+.halfChance {
     grid-column: span 2;
 }
-.filler{
+
+.filler {
     opacity: 0;
     z-index: -10;
     pointer-events: none;
 }
-.zero, .ducat, .halfChance, .row{
+
+.zero,
+.ducat,
+.halfChance,
+.row {
     background-color: #006400;
 }
-.grid-item.red, .redColor {
+
+.grid-item.red,
+.redColor {
     background-color: #ff013c;
 }
-.grid-item.black, .blackColor {
+
+.grid-item.black,
+.blackColor {
     background-color: #2b4553;
 }
-.grid-item:hover{
+
+.grid-item:hover {
     cursor: pointer;
-    filter: brightness(70%);
+    filter: brightness(80%);
     transition-duration: 0.2s;
 }
+
 .placed-chip {
     position: absolute;
     top: 50%;
@@ -265,8 +352,8 @@ html, body{
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 5; 
-    pointer-events: none; 
+    z-index: 5;
+    pointer-events: none;
 }
 
 .chip-text {

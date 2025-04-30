@@ -45,6 +45,12 @@ function spinBall(chosenNumber) {
     if (spinning) return;
     spinning = true;
 
+    lastRoundBets = chipHistory.map(chip => ({ 
+        gridItem: chip.gridItem, 
+        value: chip.value 
+    }));
+    chipHistory.length = 0;
+
     console.log("Chosen number:", chosenNumber);
     const indexOnWheel = numberSequence.indexOf(chosenNumber);
 

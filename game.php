@@ -31,7 +31,7 @@ if (isset($_POST["start"])) {
                     <img src="assets/backBtn.svg" alt="back">
                 </button>
 
-                <span class="infoLabel">Chip value 1:1</span>
+                <span class="infoLabel">Select a chip</span>
                 <div class="coinSelect">
                     <div id="chip1" class="chip"></div>
                     <div id="chip10" class="chip"></div>
@@ -83,6 +83,35 @@ if (isset($_POST["start"])) {
                 <div class="info">
                     <span class="infoLabel">Last win:</span>
                     <span id="lastWinSpan"><?php echo $_SESSION["lastResult"] ?>$</span>
+                </div>
+
+
+                <div class="btnCont">
+                    <button id="undoBtn">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12.207 2.293a1 1 0 0 1 0 1.414L10.914 5H12.5c4.652 0 8.5 3.848 8.5 8.5S17.152 22 12.5 22 4 18.152 4 13.5a1 1 0 1 1 2 0c0 3.548 2.952 6.5 6.5 6.5s6.5-2.952 6.5-6.5S16.048 7 12.5 7h-1.586l1.293 1.293a1 1 0 0 1-1.414 1.414l-3-3a1 1 0 0 1 0-1.414l3-3a1 1 0 0 1 1.414 0z">
+                            </path>
+                        </svg>
+                        <span>Undo</span>
+                    </button>
+
+                    <button id="repeatBtn">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12.207 2.293a1 1 0 0 1 0 1.414L10.914 5H12.5c4.652 0 8.5 3.848 8.5 8.5S17.152 22 12.5 22 4 18.152 4 13.5a1 1 0 1 1 2 0c0 3.548 2.952 6.5 6.5 6.5s6.5-2.952 6.5-6.5S16.048 7 12.5 7h-1.586l1.293 1.293a1 1 0 0 1-1.414 1.414l-3-3a1 1 0 0 1 0-1.414l3-3a1 1 0 0 1 1.414 0z">
+                            </path>
+                        </svg>
+                        <span>Repeat</span>
+                    </button>
+                    <button id="clearBtn">
+                        <svg viewBox="0 0 1024 1024">
+                            <path
+                                d="M899.1 869.6l-53-305.6H864c14.4 0 26-11.6 26-26V346c0-14.4-11.6-26-26-26H618V138c0-14.4-11.6-26-26-26H432c-14.4 0-26 11.6-26 26v182H160c-14.4 0-26 11.6-26 26v192c0 14.4 11.6 26 26 26h17.9l-53 305.6c-0.3 1.5-0.4 3-0.4 4.4 0 14.4 11.6 26 26 26h723c1.5 0 3-0.1 4.4-0.4 14.2-2.4 23.7-15.9 21.2-30zM204 390h272V182h72v208h272v104H204V390z m468 440V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H416V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H202.8l45.1-260H776l45.1 260H672z"
+                                p-id="9724"></path>
+                        </svg>
+                        <span>Clear</span>
+                    </button>
                 </div>
 
 
@@ -270,9 +299,9 @@ if (isset($_POST["start"])) {
         }
 
         function endResult(random) {
-                Swal.fire({
-                    title: 'Roulette spin!',
-                    html: `
+            Swal.fire({
+                title: 'Roulette spin!',
+                html: `
                     <div style="text-align: center; font-family: sans-serif;">
                         The ball has landed on <strong>${random} ${getRandomColor(random)}</strong><br>
                         <span style="font-size: 18px; margin-top: 10px; font-family: sans-serif;">
@@ -280,20 +309,21 @@ if (isset($_POST["start"])) {
                         </span>
                     </div>
                 `,
-                    icon: 'info',
-                    confirmButtonText: 'Okay',
-                    allowOutsideClick: true,
-                    allowEscapeKey: true
-                }).then(() => {
-                    clearRound();
-                    updateSession();
-                });
-            }
+                icon: 'info',
+                confirmButtonText: 'Okay',
+                allowOutsideClick: true,
+                allowEscapeKey: true
+            }).then(() => {
+                clearRound();
+                updateSession();
+            });
+        }
 
         function clearRound() {
             gridItems.forEach(gridItem => {
                 const placedChips = gridItem.querySelectorAll('.placed-chip');
-                placedChips.forEach(chip => chip.remove()); delete gridItem.dataset.value;  // Clear bet value
+                placedChips.forEach(chip => chip.remove()); 
+                delete gridItem.dataset.value;  // Clear bet value
             });
 
             totalBet = 0;
@@ -301,6 +331,7 @@ if (isset($_POST["start"])) {
 
             balanceSpan.textContent = playerBalance + "$";
             lastWinSpan.textContent = lastWin + "$";
+            chipHistory.length = 0; // resetira zgodovino cipov
             updateChipAvailability();
         }
     </script>

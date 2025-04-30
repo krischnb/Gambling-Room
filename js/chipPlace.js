@@ -1,6 +1,8 @@
+const chipHistory = [];
+let lastRoundBets = [];
 gridItems.forEach(gridItem => {
     gridItem.addEventListener('click', function () {
-        if(spinning) return;
+        if (spinning) return;
 
         if (selectedChip === null) {
             Swal.fire({
@@ -53,6 +55,11 @@ gridItems.forEach(gridItem => {
             playerBalance = playerBalance - singleBet;
             balanceSpan.textContent = playerBalance + "$";  // Display balance (no format)
             updateChipAvailability();
+
+            chipHistory.push({ // se hrani zgodovina postavljenih čipov, za jih lahko potem odstranjuješ
+                gridItem: gridItem,
+                value: chipValues[selectedChip.id]
+            });
         }
     });
 });
@@ -72,3 +79,143 @@ function getChipImage(value) {
     }
     return ''; // Return an empty string if no chip should be displayed
 }
+
+document.getElementById('undoBtn').addEventListener('click', function () {
+    if(spinning) return; // med igro, (ko se ruleta vrti) nemores refundad
+    
+    if (chipHistory.length === 0) {
+        Swal.fire({
+            title: 'No actions to undo',
+            icon: 'info',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
+
+
+    const lastChip = chipHistory.pop();
+    const gridItem = lastChip.gridItem;
+    const valueToUndo = lastChip.value;
+
+    // Update dataset value
+    const currentBet = parseInt(gridItem.dataset.value || 0);
+    const newBet = currentBet - valueToUndo;
+
+    if (newBet > 0) {
+        gridItem.dataset.value = newBet;
+        const chipImagePath = getChipImage(newBet);
+        const placedChip = document.createElement('div');
+        placedChip.classList.add('placed-chip');
+        placedChip.style.backgroundImage = `url(${chipImagePath})`;
+
+        const chipText = document.createElement('div');
+        chipText.classList.add('chip-text');
+        chipText.textContent = newBet;
+        placedChip.appendChild(chipText);
+
+        const oldChip = gridItem.querySelector('.placed-chip');
+        if (oldChip) oldChip.remove();
+        gridItem.appendChild(placedChip);
+    } else {
+        // If bet becomes 0, remove chip completely
+        delete gridItem.dataset.value;
+        const oldChip = gridItem.querySelector('.placed-chip');
+        if (oldChip) oldChip.remove();
+    }
+
+    playerBalance += valueToUndo;
+    balanceSpan.textContent = playerBalance + "$";
+
+    totalBet -= valueToUndo;
+    totalBetSpan.textContent = totalBet + "$";
+
+    updateSession() // spremembe se shranijo v PHP session
+
+    updateChipAvailability();
+});
+
+document.getElementById('repeatBtn').addEventListener('click', function () {
+    if (spinning) return;
+
+    if (lastRoundBets.length === 0) {
+        Swal.fire({
+            title: 'No previous bets to repeat',
+            icon: 'info',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
+
+    // Calculate total value needed
+    const totalRepeatCost = lastRoundBets.reduce((sum, bet) => sum + bet.value, 0);
+
+    if (playerBalance < totalRepeatCost) {
+        Swal.fire({
+            title: 'Insufficient Balance',
+            text: 'You do not have enough balance to repeat the last bet.',
+            icon: 'error',
+            confirmButtonText: 'Okay'
+        });
+        return;
+    }
+
+    // Apply the same bets again
+    lastRoundBets.forEach(bet => {
+        const gridItem = bet.gridItem;
+        const chipValue = bet.value;
+
+        const currentBet = parseInt(gridItem.dataset.value || 0);
+        const newBet = currentBet + chipValue;
+
+        // Update dataset
+        gridItem.dataset.value = newBet;
+
+        // Replace visual chip
+        const chipImagePath = getChipImage(newBet);
+        const placedChip = document.createElement('div');
+        placedChip.classList.add('placed-chip');
+        placedChip.style.backgroundImage = `url(${chipImagePath})`;
+
+        const chipText = document.createElement('div');
+        chipText.classList.add('chip-text');
+        chipText.textContent = newBet;
+        placedChip.appendChild(chipText);
+
+        const oldChip = gridItem.querySelector('.placed-chip');
+        if (oldChip) oldChip.remove();
+        gridItem.appendChild(placedChip);
+
+        // Update totals
+        totalBet += chipValue;
+        playerBalance -= chipValue;
+
+        // Push to chipHistory for possible undo
+        chipHistory.push({ gridItem, value: chipValue });
+    });
+
+    balanceSpan.textContent = playerBalance + "$";
+    totalBetSpan.textContent = totalBet + "$";
+
+    updateSession();
+    updateChipAvailability();
+});
+
+document.getElementById('clearBtn').addEventListener('click', function () {
+    if(spinning) return;
+
+    if (chipHistory.length === 0) {
+        Swal.fire({
+            title: 'No chips to clear',
+            icon: 'info',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
+    let refundAmount = 0
+    chipHistory.forEach(entry => {
+        refundAmount += entry.value;
+    });
+    playerBalance += refundAmount;
+    balanceSpan.textContent = playerBalance + "$";
+    clearRound();
+});

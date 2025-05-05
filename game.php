@@ -72,17 +72,17 @@ if (isset($_POST["start"])) {
 
                 <div class="info">
                     <span class="infoLabel">Balance:</span>
-                    <span id="balanceSpan"><?php echo $_SESSION["balance"] ?>$</span>
+                    <span id="balanceSpan">$<?php echo $_SESSION["balance"] ?></span>
                 </div>
 
                 <div class="info">
                     <span class="infoLabel">Total bet:</span>
-                    <span id="totalBetSpan"><?php echo $_SESSION["currentBet"] ?>$</span>
+                    <span id="totalBetSpan">$<?php echo $_SESSION["currentBet"] ?></span>
                 </div>
 
                 <div class="info">
                     <span class="infoLabel">Last win:</span>
-                    <span id="lastWinSpan"><?php echo $_SESSION["lastResult"] ?>$</span>
+                    <span id="lastWinSpan">$<?php echo $_SESSION["lastResult"] ?></span>
                 </div>
 
 
@@ -115,7 +115,14 @@ if (isset($_POST["start"])) {
                 </div>
 
 
-                <button class="spinBtn" onclick="spin()">Bet</button>
+                <button class="spinBtn" onclick="spin()">
+                    <svg viewBox="0 0 1000 1000">
+                        <path
+                            d="M493.556 -.063c-265.602 0 -482.306 209.741 -493.5 472.594 -.765 18.027 13 19.031 13 19.031l83.813 0c16.291 0 19.146 -9.297 19.531 -17.625 9.228 -199.317 175.315 -357.688 377.156 -357.688 107.739 0 204.915 45.163 273.719 117.563l-58.813 56.875c-10.23 12.319 -10.043 27.275 5.063 31.5l247.125 49.75c21.15 5.281 46.288 -10.747 37.656 -43.656l-58.375 -227.563c-1.482 -8.615 -15.924 -22.024 -29.406 -12.406l-64.094 60.031c-89.659 -91.567 -214.627 -148.406 -352.875 -148.406zm409.625 508.5c-16.291 0 -19.146 9.297 -19.531 17.625 -9.228 199.317 -175.315 357.688 -377.156 357.688 -107.739 0 -204.915 -45.132 -273.719 -117.531l58.813 -56.906c10.229 -12.319 10.043 -27.275 -5.063 -31.5l-247.125 -49.75c-21.15 -5.281 -46.288 10.747 -37.656 43.656l58.375 227.563c1.482 8.615 15.924 22.024 29.406 12.406l64.094 -60.031c89.659 91.567 214.627 148.406 352.875 148.406 265.602 0 482.306 -209.741 493.5 -472.594 .765 -18.027 -13 -19.031 -13 -19.031l-83.813 0z">
+                        </path>
+                    </svg>
+                    <span>Spin</span>
+                </button>
             </div>
             <div class="gamePanel">
                 <div class="rouletteCont">
@@ -295,34 +302,62 @@ if (isset($_POST["start"])) {
             let random = randomNumber();
 
             spinBall(random);
-            calculateWin(random);
         }
 
         function endResult(random) {
-            Swal.fire({
-                title: 'Roulette spin!',
-                html: `
-                    <div style="text-align: center; font-family: sans-serif;">
-                        The ball has landed on <strong>${random} ${getRandomColor(random)}</strong><br>
-                        <span style="font-size: 18px; margin-top: 10px; font-family: sans-serif;">
-                            Total bet: ${totalBet}$. You won ${lastWin > 0 ? '$' + lastWin : 'nothing'}!
-                        </span>
-                    </div>
-                `,
-                icon: 'info',
-                confirmButtonText: 'Okay',
-                allowOutsideClick: true,
-                allowEscapeKey: true
-            }).then(() => {
-                clearRound();
-                updateSession();
-            });
+            const color = getRandomColor(random);
+            let colorDiv = '';
+
+            if (color === 'red') {
+                colorDiv = `<div class="redSwal colorSwal">${random}</div>`;
+            } else if (color === 'black') {
+                colorDiv = `<div class="blackSwal colorSwal">${random}</div>`;
+            } else {
+                colorDiv = `<div class="greenSwal colorSwal">${random}</div>`;
+            }
+            if (lastWin > 0) {
+                Swal.fire({
+                    html: `
+                        <div class="resultSwal">
+                            <h1 class="titleSwal">You Win!</h1>
+                            <div class="winSwal">$${lastWin}</div>
+                            <div class="landedSwal">${colorDiv} ${getRandomColor(random)}</div>
+                        </div>
+                    `,
+                    showCloseButton: true, 
+                    showConfirmButton: false,
+                    allowOutsideClick: true,
+                    allowEscapeKey: true
+                }).then(() => {
+                    clearRound();
+                    updateSession();
+                });
+
+            }
+            else {
+                Swal.fire({
+                    html: `
+                        <div class="resultSwal">
+                            <h1 class="titleSwal">You Lose!</h1>
+                            <div class="lostSwal">- $${totalBet}</div>
+                            <div class="landedSwal">${colorDiv} ${getRandomColor(random)}</div>
+                        </div>
+                    `,
+                    showCloseButton: true, 
+                    showConfirmButton: false,
+                    allowOutsideClick: true,
+                    allowEscapeKey: true
+                }).then(() => {
+                    clearRound();
+                    updateSession();
+                });
+            }
         }
 
         function clearRound() {
             gridItems.forEach(gridItem => {
                 const placedChips = gridItem.querySelectorAll('.placed-chip');
-                placedChips.forEach(chip => chip.remove()); 
+                placedChips.forEach(chip => chip.remove());
                 delete gridItem.dataset.value;  // Clear bet value
             });
 

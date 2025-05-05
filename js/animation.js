@@ -85,6 +85,7 @@ function spinBall(chosenNumber) {
             ballAngle = targetSegmentAngle;
             draw();
             console.log("Ball visually landed on:", chosenNumber);
+            calculateWin(chosenNumber);
             endResult(chosenNumber);
         }
     }

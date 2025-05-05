@@ -137,13 +137,14 @@ body {
     scale: 0.8;
 }
 
-.btnCont{
+.btnCont {
     display: flex;
     gap: 10px;
     margin-top: 10px;
     justify-content: center;
 }
-.btnCont button{
+
+.btnCont button {
     padding: 10px;
     border: 3px solid #505050;
     background-color: rgb(0, 0, 0, 0);
@@ -157,7 +158,7 @@ body {
     transition-duration: 0.2s;
 }
 
-.btnCont button:hover{
+.btnCont button:hover {
     background-color: #484545 !important;
 }
 
@@ -167,11 +168,12 @@ body {
     fill: #ffffff;
     transition-duration: 0.2s;
 }
+
 #repeatBtn svg {
     transform: rotate(180deg);
 }
 
-.btnCont button span{
+.btnCont button span {
     color: #ffffff;
     font-family: sans-serif;
     font-size: 22px;
@@ -181,19 +183,28 @@ body {
 
 .spinBtn {
     margin-top: 30px;
-    width: 80%;
+    width: 100%;
     align-self: center;
     font-size: 26px;
     padding: 10px;
     border-radius: 16px;
     border: none;
     transition-duration: 0.2s;
-    background-color: #006400;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background-color: #006400;
+}
+
+.spinBtn svg {
+    height: 35px;
+    fill: White;
 }
 
 .spinBtn:hover {
-    background-color: #065006;
+    background-color: #0e490e;
     transition-duration: 0.2s;
 }
 
@@ -363,4 +374,90 @@ body {
     text-shadow: 0 0 3px black;
     user-select: none;
     pointer-events: none;
+}
+
+.swal2-title, .swal2-html-container{
+    color: white;
+    font-family: sans-serif;
+}
+.swal2-confirm{
+    background-color: #006400;
+    width: 150px;
+    border-radius: 10px;
+}
+.swal2-info, .swal2-icon-content{
+    color: #006400;
+    border-color: #006400 !important;
+}
+
+.swal2-popup {
+    background: linear-gradient(90deg, rgba(47,47,47,1), rgba(60,60,60,1));
+    border-radius: 20px;
+    padding: 10px 20px 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.resultSwal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: popIn 0.4s ease-out;
+    padding: 10px;
+    gap: 10px;
+}
+.titleSwal {
+    font-size: 55px;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px #000;
+    margin-bottom: 5px;
+}
+
+.winSwal, .lostSwal{
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 50px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px #000;
+}
+.winSwal {
+    color:  #36a036;
+}
+.lostSwal {
+    color: #ff013c;
+}
+
+.landedSwal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 28px;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px #000;
+}
+.colorSwal {
+    border-radius: 16px;
+    width: 50px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
+}
+.redSwal{
+    background-color: #ff013c;
+}
+.blackSwal{
+    background-color: #2b4553;
+}
+.greenSwal{
+    background-color: #006400;
 }

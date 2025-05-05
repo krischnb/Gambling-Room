@@ -79,31 +79,6 @@ body {
 
 }
 
-.chip::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #505050;
-    color: #fff;
-    font-family: sans-serif;
-    padding: 5px 8px;
-    border-radius: 4px;
-    white-space: nowrap;
-    font-size: 15px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
-    z-index: 10;
-    filter: brightness(100%) !important;
-}
-
-/* Prikaze tooltip */
-.chip.disabled:hover::after {
-    opacity: 1;
-}
-
 .info {
     display: flex;
     gap: 10px;
@@ -117,24 +92,42 @@ body {
     display: flex;
 }
 
-.backBtn {
+.exitCont {
+    display: flex;
+    margin-bottom: 30px;
+    gap: 20px;
+    position: relative;
+    align-items: center;
+}
+
+.exitBtn {
     height: 60px;
     width: 60px;
     border-radius: 16px;
     border: none;
     transition-duration: 0.2s;
-    margin-bottom: 30px;
 }
 
-.backBtn:hover {
+.exitBtn:hover {
     background-color: gray;
     transition-duration: 0.2s;
 }
 
-.backBtn img {
+.exitBtn img {
     height: inherit;
     width: inherit;
     scale: 0.8;
+}
+.credits{
+    border-radius: 100%;
+    transform: scale(0.7);
+    position: absolute;
+    right: 0;
+    background-color: #505050;
+
+}
+.credits img{
+    transform: scale(0.9);
 }
 
 .btnCont {
@@ -376,22 +369,26 @@ body {
     pointer-events: none;
 }
 
-.swal2-title, .swal2-html-container{
+.swal2-title,
+.swal2-html-container {
     color: white;
     font-family: sans-serif;
 }
-.swal2-confirm{
+
+.swal2-confirm {
     background-color: #006400;
     width: 150px;
     border-radius: 10px;
 }
-.swal2-info, .swal2-icon-content{
+
+.swal2-info,
+.swal2-icon-content {
     color: #006400;
     border-color: #006400 !important;
 }
 
 .swal2-popup {
-    background: linear-gradient(90deg, rgba(47,47,47,1), rgba(60,60,60,1));
+    background: linear-gradient(90deg, rgba(47, 47, 47, 1), rgba(60, 60, 60, 1));
     border-radius: 20px;
     padding: 10px 20px 10px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
@@ -405,6 +402,7 @@ body {
     padding: 10px;
     gap: 10px;
 }
+
 .titleSwal {
     font-size: 55px;
     font-family: 'Segoe UI', sans-serif;
@@ -414,16 +412,19 @@ body {
     margin-bottom: 5px;
 }
 
-.winSwal, .lostSwal{
+.winSwal,
+.lostSwal {
     font-family: 'Segoe UI', sans-serif;
     font-size: 50px;
     font-weight: 600;
     margin-bottom: 20px;
     text-shadow: 1px 1px 2px #000;
 }
+
 .winSwal {
-    color:  #36a036;
+    color: #36a036;
 }
+
 .lostSwal {
     color: #ff013c;
 }
@@ -438,6 +439,7 @@ body {
     color: #ffffff;
     text-shadow: 1px 1px 2px #000;
 }
+
 .colorSwal {
     border-radius: 16px;
     width: 50px;
@@ -452,12 +454,48 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     transform: scale(1.05);
 }
-.redSwal{
+
+.redSwal {
     background-color: #ff013c;
 }
-.blackSwal{
+
+.blackSwal {
     background-color: #2b4553;
 }
-.greenSwal{
+
+.greenSwal {
     background-color: #006400;
+}
+
+.credit-list{
+    list-style-type: none;
+    line-height: 30px;
+    font-size: 20px;
+}
+.credit-list a{
+    color: #0095DD;
+    text-decoration: none;
+    transition-duration: 0.2s;
+}
+.credit-list a:hover{
+    text-decoration: underline;
+    transition-duration: 0.2s;
+}
+
+.tooltipCustom {
+    position: absolute;
+    background-color: #505050;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 15px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 9999;
+    font-family: sans-serif;
+    pointer-events: none;
+    white-space: nowrap;
+    display: none;
 }

@@ -27,9 +27,19 @@ if (isset($_POST["start"])) {
     <div class="glavniGame">
         <div class="gameModal">
             <div class="menu">
-                <button class="backBtn" onclick="location.replace('index.php')">
-                    <img src="assets/backBtn.svg" alt="back">
-                </button>
+                <div class="exitCont">
+                    <button class="exitBtn" onclick="location.replace('index.php')" title="Logout">
+                        <img src="assets/backBtn.svg" alt="back">
+                    </button>
+                    <form action="end.php" autocomplete="off" method="post">
+                        <button name="cashout" type="submit" class="exitBtn" title="Cashout">
+                            <img src="assets/withdraw.svg" alt="withdraw">
+                        </button>
+                    </form>
+                    <button class="exitBtn credits" onclick="credits()">
+                        <img src="assets/infoImg.svg" alt="info">
+                    </button>
+                </div>
 
                 <span class="infoLabel">Select a chip</span>
                 <div class="coinSelect">
@@ -261,12 +271,11 @@ if (isset($_POST["start"])) {
                 // Disable chip if player balance is less than chip value
                 if (playerBalance < chipValue) {
                     chip.classList.add('disabled');
-                    chip.setAttribute('data-tooltip', 'Not enough balance');
+                    chip.setAttribute('title', 'Not enough balance');
                     chip.classList.remove('chipPicked');
-
                 } else {
                     chip.classList.remove('disabled');
-                    chip.removeAttribute('data-tooltip');
+                    chip.setAttribute('title', `Chip value $${chipValue}`);
                 }
 
 
@@ -294,6 +303,7 @@ if (isset($_POST["start"])) {
                     title: 'Error!',
                     text: 'Place your bets first!',
                     icon: 'error',
+                    showCloseButton: true,
                     confirmButtonText: 'Okay'
                 });
                 return;
@@ -324,7 +334,7 @@ if (isset($_POST["start"])) {
                             <div class="landedSwal">${colorDiv} ${getRandomColor(random)}</div>
                         </div>
                     `,
-                    showCloseButton: true, 
+                    showCloseButton: true,
                     showConfirmButton: false,
                     allowOutsideClick: true,
                     allowEscapeKey: true
@@ -343,7 +353,7 @@ if (isset($_POST["start"])) {
                             <div class="landedSwal">${colorDiv} ${getRandomColor(random)}</div>
                         </div>
                     `,
-                    showCloseButton: true, 
+                    showCloseButton: true,
                     showConfirmButton: false,
                     allowOutsideClick: true,
                     allowEscapeKey: true
@@ -369,12 +379,29 @@ if (isset($_POST["start"])) {
             chipHistory.length = 0; // resetira zgodovino cipov
             updateChipAvailability();
         }
+
+        function credits() {
+            Swal.fire({
+                title: 'Credits',
+                html: `
+                    <ul class="credit-list">
+                    <li>Made by: Kristijan Boben, 4. Ra</li>
+                    <li>Professor: Boštjan Vouk</li>
+                    <li>Visit my <a href="https://github.com/krischnb" target="_blank">github</a></li> 
+                    </ul>   
+                    `,
+                icon: 'info',
+                showCloseButton: true,
+                confirmButtonText: 'Cool!',
+            });
+        }
     </script>
     <script src="js/infoRand.js"></script>
     <script src="js/payment.js"></script>
     <script src="js/updateSession.js"></script>
     <script src="js/chipPlace.js"></script>
     <script src="js/animation.js"></script>
+    <script src="js/tooltip.js"></script>
 
 </body>
 

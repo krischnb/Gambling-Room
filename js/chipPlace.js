@@ -9,7 +9,8 @@ gridItems.forEach(gridItem => {
                 title: 'Error!',
                 text: 'Select a chip first',
                 icon: 'error',
-                confirmButtonText: 'Okay'
+                confirmButtonText: 'Okay',
+                showCloseButton: true
             });
             return;
         }
@@ -87,6 +88,7 @@ document.getElementById('undoBtn').addEventListener('click', function () {
         Swal.fire({
             title: 'No actions to undo',
             icon: 'info',
+            showCloseButton: true,
             confirmButtonText: 'OK'
         });
         return;
@@ -141,6 +143,7 @@ document.getElementById('repeatBtn').addEventListener('click', function () {
         Swal.fire({
             title: 'No previous bets to repeat',
             icon: 'info',
+            showCloseButton: true,
             confirmButtonText: 'OK'
         });
         return;
@@ -154,6 +157,7 @@ document.getElementById('repeatBtn').addEventListener('click', function () {
             title: 'Insufficient Balance',
             text: 'You do not have enough balance to repeat the last bet.',
             icon: 'error',
+            showCloseButton: true,
             confirmButtonText: 'Okay'
         });
         return;
@@ -207,6 +211,7 @@ document.getElementById('clearBtn').addEventListener('click', function () {
         Swal.fire({
             title: 'No chips to clear',
             icon: 'info',
+            showCloseButton: true,
             confirmButtonText: 'OK'
         });
         return;

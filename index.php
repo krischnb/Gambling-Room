@@ -9,9 +9,9 @@
 </head>
 <body>
     <div class="glavni">
-        
+    <span class="glavniNaslov">Roulette Simulator</span>
         <form class="loginForm" action="game.php" autocomplete="off" name="form" method="post">
-            <h1>Roulette</h1>
+            <h1>Log in</h1>
 
             <div class="cont">
                 <label for="player">Your name:</label>
@@ -24,7 +24,7 @@
                 <span id="balanceError" style="display: none">The balance cannot exceed 10,000.</span>
             </div>
 
-            <input class="startBtn" type="submit" name="start" value="Start"></input>
+            <input class="startBtn" type="submit" name="start" value="Create an account"></input>
         </form>
     </div>
     

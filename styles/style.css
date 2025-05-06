@@ -10,17 +10,32 @@ html, body{
 }
 .glavni{
     display: flex;
-    justify-content: center;
+    align-items: center;
     height: 100%;
     width: 100%;
     background-image: url(../assets/backImg.jpg);  
     background-attachment: fixed;
     background-size: cover;
     background-repeat: no-repeat;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.glavniNaslov{
+    font-size: 90px;
+    font-family: sans-serif;
+    color: white;
+    font-weight: bold;
+    margin-top: 5%;text-shadow: 
+    2px 2px 0px black,  
+    -2px -2px 0px black,
+    2px -2px 0px black,
+    -2px 2px 0px black;
+    color:rgb(255, 255, 255);
+
 }
 h1{
-    top: 0;
-    font-size: 70px;
+    font-size: 50px;
     font-family: sans-serif;
     color: white;
     text-align: center;
@@ -34,7 +49,6 @@ h1{
     flex-direction: column;
     gap: 30px;
     display: flex;
-    position: absolute;
     top: 15%;
     background-color: #2f2f2f;
     padding: 35px;
@@ -48,7 +62,7 @@ label{
 }
 .nameInput, .balanceInput, .startBtn{
     height: 50px;
-    width: 300px;
+    width: 350px;
     font-size: 22px;
     border-radius: 13px;
     border: none;
@@ -65,8 +79,19 @@ label{
 }
 .startBtn{
     margin-top: 12px;
+    background-color: #006400;
+    color: white;
 }
 .startBtn:hover{
-    background-color: rgb(190, 186, 186);
+    background-color: #0e490e;
     transition-duration: 0.2s;
+}
+
+.glavni3{
+    background-color: #006400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.endForm{
 }

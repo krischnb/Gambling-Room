@@ -19,6 +19,10 @@ if (isset($_POST["start"])) {
     <title>Roulette</title>
 </head>
 <body>
-    
+    <div class="glavni3">
+        <div class="endForm">
+
+        </div>
+    </div>
 </body>
 </html>

@@ -1,26 +1,7 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html,
-body {
-    height: 100%;
-    width: 100%;
-}
-
-.glavniGame {
-    display: flex;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
+.glavni{
+    background-image: none !important;
     background-color: #006400;
-    background-attachment: fixed;
-    background-size: cover;
-    background-repeat: no-repeat;
 }
-
 .gameModal {
     display: flex;
     justify-content: space-evenly;
@@ -35,9 +16,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 20px;
+    padding: 20px
 }
-
 .menu span {
     font-size: 30px;
     color: white;

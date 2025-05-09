@@ -1,0 +1,22 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+html, body{
+    height: 100%;
+    width: 100%;
+}
+.glavni{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-image: url(../assets/backCasino.jpg);  
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    flex-direction: column;
+    gap: 50px;
+}

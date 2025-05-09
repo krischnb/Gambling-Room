@@ -4,6 +4,7 @@ session_start();
 if (isset($_POST["start"])) {
     $_SESSION["playerName"] = $_POST["player"];
     $_SESSION["balance"] = $_POST["balance"];
+    $_SESSION["startBalance"] = $_POST["balance"];
     $_SESSION["currentBet"] = 0;
     $_SESSION["lastResult"] = 0;
     header("Location: game.php");
@@ -20,22 +21,38 @@ if (isset($_POST["start"])) {
     <title>Roulette</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="styles/game.css">
+    <link rel="stylesheet" href="styles/osnova.css">
     <link rel="icon" type="image/x-icon" href="assets/favIcon.png">
 </head>
 
 <body>
-    <div class="glavniGame">
+    <div class="glavni">
         <div class="gameModal">
             <div class="menu">
                 <div class="exitCont">
                     <button class="exitBtn" onclick="location.replace('index.php')" title="Logout">
                         <img src="assets/backBtn.svg" alt="back">
                     </button>
-                    <form action="end.php" autocomplete="off" method="post">
+                    <form id="cashoutForm" action="end.php" method="post" autocomplete="off">
+                        <input type="hidden" name="player" id="playerInput">
+                        <input type="hidden" name="balance" id="balanceInput">
+                        <input type="hidden" name="startBalance" id="startBalanceInput">
+
                         <button name="cashout" type="submit" class="exitBtn" title="Cashout">
                             <img src="assets/withdraw.svg" alt="withdraw">
                         </button>
                     </form>
+
+                    <script>
+                        const cashoutForm = document.getElementById("cashoutForm");
+
+                        cashoutForm.addEventListener("submit", function (e) {
+                            document.getElementById("playerInput").value = "<?php echo $_SESSION['playerName']; ?>";
+                            document.getElementById("balanceInput").value = playerBalance; // from your JS balance variable
+                            document.getElementById("startBalanceInput").value = "<?php echo $_SESSION['startBalance']; ?>";
+                        });
+                    </script>
+                    
                     <button class="exitBtn credits" onclick="credits()">
                         <img src="assets/infoImg.svg" alt="info">
                     </button>
@@ -329,7 +346,7 @@ if (isset($_POST["start"])) {
                 Swal.fire({
                     html: `
                         <div class="resultSwal">
-                            <h1 class="titleSwal">You Win!</h1>
+                            <h1 class="titleSwal">You Won!</h1>
                             <div class="winSwal">$${lastWin}</div>
                             <div class="landedSwal">${colorDiv} ${getRandomColor(random)}</div>
                         </div>
@@ -348,7 +365,7 @@ if (isset($_POST["start"])) {
                 Swal.fire({
                     html: `
                         <div class="resultSwal">
-                            <h1 class="titleSwal">You Lose!</h1>
+                            <h1 class="titleSwal">You Lost!</h1>
                             <div class="lostSwal">- $${totalBet}</div>
                             <div class="landedSwal">${colorDiv} ${getRandomColor(random)}</div>
                         </div>
@@ -372,10 +389,10 @@ if (isset($_POST["start"])) {
             });
 
             totalBet = 0;
-            totalBetSpan.textContent = totalBet + "$";
+            totalBetSpan.textContent = "$" + totalBet;
 
-            balanceSpan.textContent = playerBalance + "$";
-            lastWinSpan.textContent = lastWin + "$";
+            balanceSpan.textContent = "$" + playerBalance;
+            lastWinSpan.textContent = "$" + lastWin;
             chipHistory.length = 0; // resetira zgodovino cipov
             updateChipAvailability();
         }

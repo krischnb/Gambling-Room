@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/osnova.css">
     <link rel="icon" type="image/x-icon" href="assets//favIcon.png">
     <title>Roulette</title>
 </head>
@@ -11,7 +12,7 @@
     <div class="glavni">
     <span class="glavniNaslov">Roulette Simulator</span>
         <form class="loginForm" action="game.php" autocomplete="off" name="form" method="post">
-            <h1>Log in</h1>
+            <h1>Sign up</h1>
 
             <div class="cont">
                 <label for="player">Your name:</label>

@@ -52,9 +52,9 @@ gridItems.forEach(gridItem => {
             // Update balance and total bet (no formatting applied here)
             singleBet = chipValues[selectedChip.id];
             totalBet = totalBet + singleBet;
-            totalBetSpan.textContent = totalBet + "$";  // Display total bet (no format)
+            totalBetSpan.textContent = "$" + totalBet;  // Display total bet (no format)
             playerBalance = playerBalance - singleBet;
-            balanceSpan.textContent = playerBalance + "$";  // Display balance (no format)
+            balanceSpan.textContent = "$" + playerBalance;  // Display balance (no format)
             updateChipAvailability();
 
             chipHistory.push({ // se hrani zgodovina postavljenih čipov, za jih lahko potem odstranjuješ
@@ -126,10 +126,10 @@ document.getElementById('undoBtn').addEventListener('click', function () {
     }
 
     playerBalance += valueToUndo;
-    balanceSpan.textContent = playerBalance + "$";
+    balanceSpan.textContent = "$" + playerBalance;
 
     totalBet -= valueToUndo;
-    totalBetSpan.textContent = totalBet + "$";
+    totalBetSpan.textContent = "$" + totalBet;
 
     updateSession() // spremembe se shranijo v PHP session
 
@@ -197,8 +197,8 @@ document.getElementById('repeatBtn').addEventListener('click', function () {
         chipHistory.push({ gridItem, value: chipValue });
     });
 
-    balanceSpan.textContent = playerBalance + "$";
-    totalBetSpan.textContent = totalBet + "$";
+    balanceSpan.textContent = "$" + playerBalance;
+    totalBetSpan.textContent = "$" + totalBet;
 
     updateSession();
     updateChipAvailability();
@@ -221,6 +221,6 @@ document.getElementById('clearBtn').addEventListener('click', function () {
         refundAmount += entry.value;
     });
     playerBalance += refundAmount;
-    balanceSpan.textContent = playerBalance + "$";
+    balanceSpan.textContent = "$" + playerBalance;
     clearRound();
 });

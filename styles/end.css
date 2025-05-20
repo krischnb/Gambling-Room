@@ -11,6 +11,9 @@
     color: rgb(255, 255, 255);
 
 }
+canvas{
+    position: fixed;
+}
 
 h1 {
     font-size: 50px;

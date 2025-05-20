@@ -1,6 +1,7 @@
 .glavni{
     background-image: none !important;
     background-color: #006400;
+    position: relative;
 }
 .gameModal {
     display: flex;

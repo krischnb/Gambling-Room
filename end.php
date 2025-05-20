@@ -22,6 +22,7 @@ $startBalance = $_SESSION["startBalance"] ?? 0;
     <link rel="stylesheet" href="styles/end.css">
     <link rel="stylesheet" href="styles/osnova.css">
     <link rel="icon" type="image/x-icon" href="assets//favIcon.png">
+    <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.x/dist/index.umd.js"></script>
     <title>Roulette</title>
 </head>
 <body>
@@ -39,6 +40,7 @@ $startBalance = $_SESSION["startBalance"] ?? 0;
         </div>
         <div id="countdownTimer" class="countdown">Redirecting in <span id="timer">10</span>...</div>
     </div>
+    
     <script>
     let timeLeft = 10;
     const timerElement = document.getElementById("timer");
@@ -53,7 +55,11 @@ $startBalance = $_SESSION["startBalance"] ?? 0;
         }
     }, 1000);
 </script>
-
+<script>
+  const container = document.querySelector('.glavni')
+  const fireworks = new Fireworks.default(container)
+  fireworks.start()
+</script>
 
     <script>
         const player = <?php echo json_encode($player); ?>;
